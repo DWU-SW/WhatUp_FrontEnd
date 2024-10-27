@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
-import '../CSS/result.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Line } from "react-chartjs-2";
+import { Chart, registerables } from "chart.js";
+import "../css/result.css";
 
 Chart.register(...registerables);
 
@@ -10,6 +11,7 @@ const Result = () => {
   const [labels, setLabels] = useState([]);
   const [fps, setFps] = useState(0);
   const [isGenerating, setIsGenerating] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -32,10 +34,10 @@ const Result = () => {
     labels: labels,
     datasets: [
       {
-        label: 'Power Consumption (W)',
+        label: "Power Consumption (W)",
         data: data,
-        borderColor: '#4caf50',
-        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+        borderColor: "#4caf50",
+        backgroundColor: "rgba(76, 175, 80, 0.2)",
         fill: true,
         pointRadius: 5,
         pointHoverRadius: 7,
@@ -50,13 +52,13 @@ const Result = () => {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Power Consumption (W)',
+          text: "Power Consumption (W)",
         },
       },
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: "Time",
         },
       },
     },
@@ -79,9 +81,19 @@ const Result = () => {
     setIsGenerating(false);
   };
 
+  const gotoBack = () => {
+    navigate("/");
+  };
+
   return (
     <div className="result-container">
       <header className="header">
+        <img
+          onClick={gotoBack}
+          src="/images/backBtn.svg"
+          alt="back-btn"
+          className="back-btn"
+        />
         <h1>WattUp</h1>
       </header>
       <div className="fps-display">
