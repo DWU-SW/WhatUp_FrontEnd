@@ -1,7 +1,7 @@
 // main.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../CSS/main.css";
+import "../css/main.css";
 
 function Main() {
   const [selectedTask, setSelectedTask] = useState("Rendering");
