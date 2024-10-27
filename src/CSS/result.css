@@ -10,12 +10,24 @@
 
 /* Header */
 .header {
-  background-color: #76b39d; /* Light green background */
+  background-color: #76b39d;
   width: 100%;
   padding: 20px 0;
   text-align: center;
   color: white;
   font-size: 24px;
+}
+
+.back-btn {
+  position: absolute;
+  right: 1rem;
+  top: 2%;
+  left: 2%;
+  width: 3rem;
+  height: 3rem;
+  background-image: url("../../public/images/backBtn.svg");
+  background-size: cover;
+  cursor: pointer;
 }
 
 /* FPS 화면 */
