@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { useLocation } from "react-router-dom"; // 추가
-import "../CSS/result.css";
+import "../css/result.css";
 
 Chart.register(...registerables);
 
@@ -15,8 +16,8 @@ const Result = () => {
   const [labels, setLabels] = useState([]);
   const [fps, setFps] = useState(0);
   const [isGenerating, setIsGenerating] = useState(true);
-
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedTask === "Gaming") {
@@ -100,10 +101,19 @@ const Result = () => {
   const handleStopGeneration = () => {
     setIsGenerating(false);
   };
+  const gotoBack = () => {
+    navigate("/");
+  };
 
   return (
     <div className="result-container">
       <header className="header">
+        <img
+          onClick={gotoBack}
+          src="/images/backBtn.svg"
+          alt="back-btn"
+          className="back-btn"
+        />
         <h1>WattUp</h1>
       </header>
       <div className="fps-display">
