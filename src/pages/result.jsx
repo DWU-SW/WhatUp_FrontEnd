@@ -1,22 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import "../css/result.css";
+import { useLocation } from "react-router-dom"; // 추가
+import "../CSS/result.css";
 
 Chart.register(...registerables);
 
 const Result = () => {
+  const location = useLocation(); // useLocation 훅 사용
+  const { state } = location; // state 가져오기
+  const selectedTask = state ? state.selectedTask : "Rendering"; // 기본값 설정
+
   const [data, setData] = useState([]);
   const [labels, setLabels] = useState([]);
   const [fps, setFps] = useState(0);
   const [isGenerating, setIsGenerating] = useState(true);
-  const navigate = useNavigate();
+
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (selectedTask === "Gaming") {
+      setMessage(
+        "게임의 평균 프레임 레이트(FPS)를 표시합니다.  PS가 높을수록 더 부드러운 게임 플레이가 가능합니다."
+      );
+    } else if (selectedTask === "Video Rendering") {
+      setMessage(
+        "영상 파일의 렌더링 작업에 걸린 시간을 보여줍니다. 시간이 짧을수록 작업 효율이 높습니다."
+      );
+    } else if (selectedTask === "Graphic Design") {
+      setMessage(
+        "그래픽 디자인 소프트웨어의 작업 속도를 표시합니다. 시간이 짧을수록 성능이 우수합니다."
+      );
+    }
+  }, [selectedTask]);
 
   useEffect(() => {
     const interval = setInterval(async () => {
       if (isGenerating) {
-        // Electron API를 통해 CPU 사용률 및 FPS 가져오기
         const powerConsumption = await window.electronAPI.getCpuUsage();
         const currentTime = new Date().toLocaleTimeString();
         const currentFps = await window.electronAPI.getFps();
@@ -81,24 +101,13 @@ const Result = () => {
     setIsGenerating(false);
   };
 
-  const gotoBack = () => {
-    navigate("/");
-  };
-
   return (
     <div className="result-container">
       <header className="header">
-        <img
-          onClick={gotoBack}
-          src="/images/backBtn.svg"
-          alt="back-btn"
-          className="back-btn"
-        />
         <h1>WattUp</h1>
       </header>
       <div className="fps-display">
-        <p>게임의 평균 프레임 레이트(FPS)를 표시합니다.</p>
-        <p>FPS가 높을수록 더 부드러운 게임 플레이가 가능합니다.</p>
+        <p>{message}</p>
         <div className="fps-value">{fps} FPS</div>
       </div>
       <div className="button-container">
